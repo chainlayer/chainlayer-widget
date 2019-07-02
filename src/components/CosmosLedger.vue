@@ -1,19 +1,17 @@
 <template>
     <div class="cosmosLedger">
-        <button v-on:click="tryConnect">Connect</button><br>
-        <label>Connected: </label><span>{{connected}}</span><br>
-        <label>Address: </label><span>{{bech32}}</span><br>
-        <label>Public Key: </label><span>{{pk}}</span><br>
-        <label>Path: </label><span>{{path}}</span><br>
-        <label>Available Balance: </label><span>{{balance_available}}</span><br>
-        <label>Delegated Balance: </label><span>{{balance_delegated}}</span><br>
-        <label>Total Balance: </label><span>{{balance_total}}</span><br>
-        <label>Sequence: </label><span>{{sequence}}</span><br>
-        <label>accountNumber: </label><span>{{accInfo.accountNumber}}</span><br>
-        <label v-if="this.readytodelegate">Delegation amount: </label><input v-model.number="delegation" type="number" v-if="this.readytodelegate"><br>
+        <img src="/logo-irisnet.svg" data-src="/media/logo-cosmos.svg" alt="IrisNet" title="IrisNet" width="145" height="46"><br>
+        <span v-if="this.staked!=''"><label>Staked by ChainLayer: </label><br>
+            <span>{{staked}} Iris ({{stakedUSD}})</span><br></span>
+        <span v-if="this.connected==false"><button v-on:click="tryConnect">Connect</button><br></span>
+        <span v-if="this.error!=''">{{error}}</span><br>
+        <label v-if="this.bech32!=''">Address: </label><span v-if="this.bech32!=''">{{bech32}}</span><br>
+        <label v-if="this.balance_available!=''">Available Balance: </label><span v-if="this.balance_available!=''">{{balance_available}} {{denom}}</span><br>
+        <label v-if="this.balance_delegated!=''">Delegated Balance: </label><span v-if="this.balance_delegated!=''">{{balance_delegated}} {{denom}}</span><br>
+        <label v-if="this.balance_total!=''">Total Balance: </label><span v-if="this.balance_total!=''">{{balance_total}} {{denom}}</span><br>
+        <label v-if="this.readytodelegate">Delegation amount in {{denom}}: </label><input v-model.number="delegation" type="number" v-if="this.readytodelegate"><br>
         <button v-on:click="delegate" v-if="this.readytodelegate">Delegate</button>
-        <hr>
-        <ul id="console-status">
+        <ul id="console-status" v-if="this.debug">
             <li v-for="item in consoleStatus" v-bind:key="item.index">
                 {{ item.msg }}
             </li>
@@ -49,8 +47,14 @@
                 balance_available: '',
                 balance_delegated: '',
                 balance_total: '',
-                connected: 'false',
-                readytodelegate: false
+                connected: false,
+                readytodelegate: false,
+                debug: false,
+                denom: '',
+                staked: '',
+                stakedUSD: '',
+                error: '',
+                hrp: ''
             }
         },
         computed: {
@@ -58,34 +62,58 @@
                 return this.consoleLog;
             },
         },
+        created: function() {
+            this.tryConnect();
+        },
         methods: {
             log: function (list, msg) {
-                list.push({
-                    index: list.length,
-                    msg: msg
-                })
+                if (this.debug) {
+                    list.push({
+                        index: list.length,
+                        msg: msg
+                    })
+                } else {
+                    // eslint-disable-next-line
+                    console.log(msg);
+                }
             },
             tryConnect: async function () {
+                this.error = '';
                 this.consoleLog = [];
                 this.myAddr = null;
+                this.denom = cdt.getDefaultDenom();
+                this.hrp = cdt.getHrp();
                 this.readytodelegate = false;
+                this.spinning = true;
 
                 this.log(this.consoleLog, "Trying to connect...");
+
+                // First get Validator Info
+                this.validators = await cdt.retrieveValidators();
+                this.staked = Big(this.validators['iva1kgddca7qj96z0qcxr2c45z73cfl0c75pmw0meu'].totalShares).toString()
+
+                this.price = await cdt.getPrice();
+                var formatter = new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                });
+
+                this.stakedUSD = formatter.format(Big(this.validators['iva1kgddca7qj96z0qcxr2c45z73cfl0c75pmw0meu'].totalShares * this.price));
 
                 try {
                     await cdt.connect();
                 } catch(e) {
                     // TODO: Handle error if not logged in
                     this.log(this.consoleLog, e);
-                    this.connected = 'false';
+                    this.connected = false;
                     return;
                 }
                 if (!cdt.connected) {
-                    this.connected = 'false';
+                    this.connected = false;
                     this.log(this.consoleLog, cdt.lastError);
                     return;
                 }
-                this.connected = 'true';
+                this.connected = true;
                 this.log(this.consoleLog, "Connected!");
 
                 try {
@@ -93,6 +121,10 @@
                 } catch(e) {
                     // TODO: Handle error if not logged in
                     this.log(this.consoleLog, e);
+                    if (e=='Error: Unknown Status Code: 26628') {
+                        this.connected = false;
+                        this.error = 'Enter Pin on Ledger';
+                    }
                     return
                 }
                 this.bech32 = this.myAddr.bech32;
@@ -101,20 +133,6 @@
                 this.log(this.consoleLog, this.myAddr);
                 this.log(this.consoleLog, `Address  : ${this.myAddr.bech32}`);
                 this.log(this.consoleLog, `PublicKey: ${this.myAddr.pk}`);
-                this.getBalance();
-            },
-
-            getBalance: async function () {
-                if (!cdt.connected) {
-                    this.log(this.consoleLog, "Try connecting first..");
-                    return;
-                }
-
-                if (this.myAddr == null) {
-                    this.log(this.consoleLog, "Retrieve the device address first");
-                    return;
-                }
-
                 this.log(this.consoleLog, `Query ${this.myAddr.bech32}`);
 
                 this.accInfo = await cdt.getAccountInfo(this.myAddr);
@@ -125,9 +143,10 @@
                     this.log(this.consoleLog, this.accInfo.error);
                     this.log(this.consoleLog, this.accInfo);
                     this.sequence = this.accInfo.sequence;
-                    this.balance_available = Big(this.accInfo.balanceirisatta / 1000000000000000000);
+                    this.balance_available = Big(this.accInfo.balance);
                     this.log(this.consoleLog, this.accInfo);
                 }
+
 
                 this.reply = await cdt.retrieveBalances([this.myAddr]);
                 if (this.accInfo.error) {
@@ -135,11 +154,12 @@
                     return
                 } else {
                     this.log(this.consoleLog, this.reply);
-                    this.balance_delegated = Big(this.reply[0].delegationsTotaluAtoms);
+                    this.balance_delegated = Big(this.reply[0].delegationsTotal * 1000000000000000000);
                     this.balance_total = this.balance_delegated.add(this.balance_available);
-                    this.log(this.consoleLog, this.reply[0].delegationsTotaluAtoms);
+                    this.log(this.consoleLog, this.reply[0].delegationsTotal);
                 }
                 this.readytodelegate = true;
+                this.spinning = false;
             },
             delegate: async function () {
                 if (!cdt.connected) {

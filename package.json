@@ -14,11 +14,11 @@
   ],
   "license": "Apache-2.0",
   "dependencies": {
-    "core-js": "^2.6.5",
-    "vue": "^2.6.10",
-    "@ledgerhq/hw-transport-webusb": "^4.61.0",
     "@ledgerhq/hw-transport-u2f": "^4.61.0",
-    "cosmos-sdk-delegation-lib": "chainlayer/cosmos-sdk-delegation-lib#master"
+    "@ledgerhq/hw-transport-webusb": "^4.61.0",
+    "core-js": "^2.6.5",
+    "cosmos-sdk-delegation-lib": "chainlayer/cosmos-sdk-delegation-lib#06d8d3e",
+    "vue": "^2.6.10"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.8.0",
