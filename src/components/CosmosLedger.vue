@@ -1,6 +1,6 @@
 <template>
     <div class="cosmosLedger">
-        <img src="/logo-irisnet.svg" data-src="/media/logo-cosmos.svg" alt="IrisNet" title="IrisNet" width="145" height="46"><br>
+        <img src="/logo-irisnet.svg" alt="IrisNet" title="IrisNet" width="145" height="46"><br>
         <span v-if="this.staked!=''"><label>Staked by ChainLayer: </label><br>
             <span>{{staked}} Iris ({{stakedUSD}})</span><br></span>
         <span v-if="this.connected==false"><button v-on:click="tryConnect">Connect</button><br></span>
@@ -84,7 +84,6 @@
                 this.denom = cdt.getDefaultDenom();
                 this.hrp = cdt.getHrp();
                 this.readytodelegate = false;
-                this.spinning = true;
 
                 this.log(this.consoleLog, "Trying to connect...");
 
@@ -119,7 +118,6 @@
                 try {
                     this.myAddr = await cdt.retrieveAddress(0, 0);
                 } catch(e) {
-                    // TODO: Handle error if not logged in
                     this.log(this.consoleLog, e);
                     if (e=='Error: Unknown Status Code: 26628') {
                         this.connected = false;
@@ -147,7 +145,6 @@
                     this.log(this.consoleLog, this.accInfo);
                 }
 
-
                 this.reply = await cdt.retrieveBalances([this.myAddr]);
                 if (this.accInfo.error) {
                     this.log(this.consoleLog, this.reply.error);
@@ -159,7 +156,6 @@
                     this.log(this.consoleLog, this.reply[0].delegationsTotal);
                 }
                 this.readytodelegate = true;
-                this.spinning = false;
             },
             delegate: async function () {
                 if (!cdt.connected) {
