@@ -1,5 +1,5 @@
 <template>
-    <div class="cosmosLedger">
+    <div class="irisLedger">
         <img src="/logo-irisnet.svg" alt="IrisNet" title="IrisNet" width="145" height="46"><br>
         <span v-if="this.staked!=''"><label>Staked by ChainLayer: </label><br>
             <span>{{staked}} Iris ({{stakedUSD}})</span><br></span>
@@ -29,7 +29,7 @@
     cdt.setNodeURL('https://192.168.2.101');
 
     export default {
-        name: 'CosmosLedger',
+        name: 'IrisLedger',
         props: {
             restUrl: String,
         },

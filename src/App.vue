@@ -1,22 +1,22 @@
 <template>
-  <div id="app">
-    <CosmosLedger msg="Minimal Cosmos+Ledger delegation example"/>
+  <div id="iris">
+    <IrisLedger msg="Delegation"/>
   </div>
 </template>
 
 <script>
-import CosmosLedger from './components/CosmosLedger.vue'
+import IrisLedger from './components/IrisLedger.vue'
 
 export default {
   name: 'app',
   components: {
-    CosmosLedger
+    IrisLedger
   }
 }
 </script>
 
 <style>
-#app {
+#iris {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
