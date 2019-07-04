@@ -1,6 +1,6 @@
 <template>
-    <div class="irisLedger" style="width: 460px; display:inline-block;">
-        <img src="/logo-irisnet.svg" alt="IrisNet" title="IrisNet" width="145" height="46"><br>
+    <div class="terraLedger" style="width: 460px; display:inline-block;">
+        <img src="/logo-terra.svg" alt="Terra" title="Terra" width="145" height="46"><br>
         <span v-if="this.staked!=''"><label>Staked by ChainLayer: </label><br>
             <span>{{staked}} {{denom}} ({{stakedUSD}})</span><br></span>
         <label v-if="this.price!=''">Price {{denom}}: </label><span>$ {{price}}</span><br>
@@ -23,16 +23,16 @@
 </template>
 
 <script>
-    var { IrisDelegateTool } = require("cosmos-sdk-delegation-lib");
+    var { TerraDelegateTool } = require("cosmos-sdk-delegation-lib");
     import TransportU2F from '@ledgerhq/hw-transport-u2f';
     import Big from 'big.js';
 
     const transport = new TransportU2F();
-    const cdt = new IrisDelegateTool(transport);
-    cdt.setNodeURL('https://192.168.2.101');
+    const cdt = new TerraDelegateTool(transport);
+    cdt.setNodeURL('https://192.168.2.201');
 
     export default {
-        name: 'IrisLedger',
+        name: 'TerraLedger',
         props: {
             restUrl: String,
         },
@@ -95,12 +95,11 @@
                 this.error = '';
                 this.consoleLog = [];
                 this.myAddr = null;
-                this.denom = 'Iris';
-                this.hrp = cdt.getHrp();
+                this.denom = 'Luna';
                 this.readytodelegate = false;
-                this.baseamount = 1000000000000000000;
-                this.validator = 'iva1kgddca7qj96z0qcxr2c45z73cfl0c75pmw0meu';
-                this.chainId = 'irishub';
+                this.baseamount = 1000000;
+                this.validator = 'terravaloper1kgddca7qj96z0qcxr2c45z73cfl0c75paknc5e';
+                this.chainId = 'columbus-2';
 
                 this.log(this.consoleLog, "Trying to connect...");
 
@@ -116,10 +115,10 @@
 
                 // First get Validator Info
                 this.validators = await cdt.retrieveValidators();
-                this.staked = amtformatter.format(Big(this.validators[this.validator].totalShares));
+                this.staked = amtformatter.format(Big(this.validators[this.validator].totalShares / this.baseamount));
 
                 this.price = await cdt.getPrice();
-                this.stakedUSD = curformatter.format(Big(this.validators[this.validator].totalShares * this.price));
+                this.stakedUSD = curformatter.format(Big(this.validators[this.validator].totalShares / this.baseamount * this.price));
 
                 try {
                     this.connecting = true;
@@ -177,8 +176,8 @@
                     return
                 } else {
                     this.log(this.consoleLog, this.reply);
-                    this.balance_delegated = amtformatter.format(Big(this.reply[0].delegationsTotal));
-                    this.balance_total = amtformatter.format(Big(this.reply[0].delegationsTotal).add(Big(this.accInfo.balance/this.baseamount)));
+                    this.balance_delegated = amtformatter.format(Big(this.reply[0].delegationsTotal/this.baseamount));
+                    this.balance_total = amtformatter.format(Big(this.reply[0].delegationsTotal/this.baseamount).add(Big(this.accInfo.balance/this.baseamount)));
                     this.log(this.consoleLog, this.reply[0].delegationsTotal);
                 }
                 this.readytodelegate = true;
