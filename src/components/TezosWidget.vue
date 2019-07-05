@@ -1,14 +1,9 @@
 <template>
-    <div class="tezosWidget" style="width: 460px; display:inline-block;">
-        <img src="/logo-tezos.svg" alt="Tezos" title="Tezos" width="145" height="46"><br>
+    <div class="tezosWidget" style="width: 300px; display:inline-block; vertical-align:top">
+        <img src="/img/logo-tezos.png" alt="Tezos" title="Tezos" height="46"><br>
         <span v-if="this.staked!=''"><label>Staked by ChainLayer: </label><br>
             <span>{{staked}} {{denom}} ({{stakedUSD}})</span><br></span>
         <label v-if="this.price!=''">Price {{denom}}: </label><span>$ {{price}}</span><br>
-        <ul id="console-status" v-if="this.debug">
-            <li v-for="item in consoleStatus" v-bind:key="item.index">
-                {{ item.msg }}
-            </li>
-        </ul>
     </div>
 </template>
 
@@ -101,7 +96,7 @@
 
                 this.price = await this.getPrice();
                 this.stakedUSD = curformatter.format(Big(this.validators[0] / this.baseamount * this.price));
-
+                this.$emit("tezosStake", Big(this.validators[0] / this.baseamount * this.price));
             },
             getPrice: async function () {
                 const url = `https://min-api.cryptocompare.com/data/price?fsym=XTZ&tsyms=USD`;

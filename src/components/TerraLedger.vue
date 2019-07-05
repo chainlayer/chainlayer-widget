@@ -1,24 +1,28 @@
 <template>
-    <div class="terraLedger" style="width: 460px; display:inline-block;">
-        <img src="/logo-terra.svg" alt="Terra" title="Terra" width="145" height="46"><br>
+    <div class="terraLedger" style="width: 300px; display:inline-block; vertical-align:top">
+        <img src="/img/logo-terra.svg" alt="Terra" title="Terra" width="145" height="46"><br>
         <span v-if="this.staked!=''"><label>Staked by ChainLayer: </label><br>
             <span>{{staked}} {{denom}} ({{stakedUSD}})</span><br></span>
         <label v-if="this.price!=''">Price {{denom}}: </label><span>$ {{price}}</span><br>
-        <span v-if="this.connecting==false && this.connected==false"><button v-on:click="tryConnect">Connect</button><br></span>
-        <span v-if="this.connecting==true"><img src="/Spinner.gif" height="93" width="93"/></span>
-        <span v-if="this.error!=''">{{error}}</span><br>
-        <span v-if="this.bech32!=''"><b>Your information</b></span><br>
-        <label v-if="this.bech32!=''">Address: </label><span v-if="this.bech32!=''">{{bech32}}</span><br>
-        <label v-if="this.balance_available!=''">Available Balance: </label><span v-if="this.balance_available!=''">{{balance_available}} {{denom}}</span><br>
-        <label v-if="this.balance_delegated!=''">Delegated Balance: </label><span v-if="this.balance_delegated!=''">{{balance_delegated}} {{denom}}</span><br>
-        <label v-if="this.balance_total!=''">Total Balance: </label><span v-if="this.balance_total!=''">{{balance_total}} {{denom}}</span><br>
-        <label v-if="this.readytodelegate">Delegation amount in {{denom}}: </label><input v-model.number="delegation" type="number" v-if="this.readytodelegate" @keypress="onlyNumber"><br>
-        <button v-on:click="delegate" v-if="this.readytodelegate">Delegate</button>
-        <ul id="console-status" v-if="this.debug">
-            <li v-for="item in consoleStatus" v-bind:key="item.index">
-                {{ item.msg }}
-            </li>
-        </ul>
+        <button v-on:click="show">Details</button>
+
+        <modal name="terra-modal" :width="400" :draggable="true">
+            <span v-if="this.connecting==false && this.connected==false"><button v-on:click="tryConnect">Connect Ledger</button><br></span>
+            <span v-if="this.connecting==true">looking for ledger<br><img src="/Spinner.gif" height="93" width="93"/></span>
+            <span v-if="this.error!=''">{{error}}</span><br>
+            <span v-if="this.bech32!=''"><b>Your information</b></span><br>
+            <label v-if="this.bech32!=''">Address: </label><span v-if="this.bech32!=''">{{bech32}}</span><br>
+            <label v-if="this.balance_available!=''">Available Balance: </label><span v-if="this.balance_available!=''">{{balance_available}} {{denom}}</span><br>
+            <label v-if="this.balance_delegated!=''">Delegated Balance: </label><span v-if="this.balance_delegated!=''">{{balance_delegated}} {{denom}}</span><br>
+            <label v-if="this.balance_total!=''">Total Balance: </label><span v-if="this.balance_total!=''">{{balance_total}} {{denom}}</span><br>
+            <label v-if="this.rewards!=''">Rewards: </label><span v-if="this.rewards!=''">{{rewards}} {{denom}}</span><br>
+            <label v-if="this.readytodelegate">Delegation amount in {{denom}}: </label><input v-model.number="delegation" type="number" v-if="this.readytodelegate" @keypress="onlyNumber"><br>
+            <br>
+            <button v-on:click="delegate" v-if="this.readytodelegate">Delegate</button>&nbsp;
+            <!--button v-on:click="withdraw" v-if="this.readytodelegate">Withdraw</button>&nbsp;-->
+            <button v-on:click="tryConnect" v-if="this.readytodelegate">Refresh</button>&nbsp;
+            <button v-on:click="hide" v-if="this.readytodelegate">Done</button>
+        </modal>
     </div>
 </template>
 
@@ -31,6 +35,16 @@
     const cdt = new TerraDelegateTool(transport);
     cdt.setNodeURL('https://192.168.2.201');
 
+    var curformatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+    });
+    var amtformatter = new Intl.NumberFormat('en-US', {
+        style: 'decimal',
+        minimumFractionDigits: 3,
+        maximumFractionDigits: 3,
+    });
+
     export default {
         name: 'TerraLedger',
         props: {
@@ -38,7 +52,6 @@
         },
         data() {
             return {
-                consoleLog: [],
                 myAddr: '',
                 bech32: '',
                 pk: '',
@@ -61,6 +74,7 @@
                 price: '',
                 chainId: '',
                 validator: '',
+                rewards: '',
                 hrp: ''
             }
         },
@@ -70,9 +84,15 @@
             },
         },
         created: function() {
-            this.tryConnect();
+            this.init();
         },
         methods: {
+            show () {
+                this.$modal.show('terra-modal');
+            },
+            hide () {
+                this.$modal.hide('terra-modal');
+            },
             onlyNumber ($event) {
                 //console.log($event.keyCode); //keyCodes value
                 let keyCode = ($event.keyCode ? $event.keyCode : $event.which);
@@ -82,18 +102,12 @@
             },
             log: function (list, msg) {
                 if (this.debug) {
-                    list.push({
-                        index: list.length,
-                        msg: msg
-                    })
-                } else {
                     // eslint-disable-next-line
                     console.log(msg);
                 }
             },
-            tryConnect: async function () {
+            init: async function () {
                 this.error = '';
-                this.consoleLog = [];
                 this.myAddr = null;
                 this.denom = 'Luna';
                 this.readytodelegate = false;
@@ -103,15 +117,6 @@
 
                 this.log(this.consoleLog, "Trying to connect...");
 
-                var curformatter = new Intl.NumberFormat('en-US', {
-                    style: 'currency',
-                    currency: 'USD',
-                });
-                var amtformatter = new Intl.NumberFormat('en-US', {
-                    style: 'decimal',
-                    minimumFractionDigits: 3,
-                    maximumFractionDigits: 3,
-                });
 
                 // First get Validator Info
                 this.validators = await cdt.retrieveValidators();
@@ -119,7 +124,9 @@
 
                 this.price = await cdt.getPrice();
                 this.stakedUSD = curformatter.format(Big(this.validators[this.validator].totalShares / this.baseamount * this.price));
-
+                this.$emit("terraStake", Big(this.validators[this.validator].totalShares / this.baseamount * this.price));
+            },
+            tryConnect: async function () {
                 try {
                     this.connecting = true;
                     await cdt.connect();
@@ -218,25 +225,3 @@
     }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-    h3 {
-        margin: 40px 0 0;
-    }
-
-    button {
-        padding: 5px;
-        font-weight: bold;
-        font-size: medium;
-    }
-
-    ul {
-        padding: 10px;
-        text-align: left;
-        alignment: left;
-        list-style-type: none;
-        background: black;
-        font-weight: bold;
-        color: greenyellow;
-    }
-</style>
