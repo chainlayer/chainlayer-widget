@@ -1,30 +1,39 @@
 <template>
   <div id="app" style="vertical-align:top">
+    <TotalStake :tezosStake="tezosStake" :irisStake="irisStake" :terraStake="terraStake" :cosmosStake="cosmosStake"/>
+    <hr>
     <h3>Validating Networks</h3>
     <CosmosLedger msg="Delegation" @cosmosStake="updateCosmos"/>
     <TerraLedger msg="Delegation" @terraStake="updateTerra"/>
     <IrisLedger msg="Delegation" @irisStake="updateIris"/>
+    <br>&nbsp;
+    <br>
     <TezosWidget msg="Delegation" @tezosStake="updateTezos"/>
-    <hr>
-    <TotalStake :tezosStake="tezosStake" :irisStake="irisStake" :terraStake="terraStake" :cosmosStake="cosmosStake"/>
+    <div class="chainlinkWidget" style="width: 300px; display:inline-block; vertical-align:top">
+      <img src="/img/logo-chainlink.png" alt="Chainlink" title="Chainlink" width="128" height="46"><br>
+      <label>Chainlayer Oracle for Chainlink: </label><br>
+      <a href="https://etherscan.io/address/0xf5a3d443fccd7ee567000e43b23b0e98d96445ce">Etherscan</a><br>
+      <a href="https://docs.chain.link/docs/decentralized-oracles-ethereum-mainnet">Mainnet Oracles</a><br>
+      <a href="https://docs.chain.link/docs/chainlinks-ethereum-mainnet">Chainlinks</a><br>
+    </div>
     <hr>
     <h3>Testnet</h3>
     <div class="wanchainWidget" style="width: 300px; display:inline-block; vertical-align:top">
-      <img src="/img/logo-wanchain.png" alt="Wanchain" title="wWnchain" height="46"><br>
+      <img src="/img/logo-wanchain.png" alt="Wanchain" title="Wanchain" width="170" height="46"><br>
     </div>
     <div class="regenWidget" style="width: 300px; display:inline-block; vertical-align:top">
-      <img src="/img/logo-regen.png" alt="Regen" title="Regen" height="46"><br>
+      <img src="/img/logo-regen.png" alt="Regen" title="Regen" width="237" height="46"><br>
     </div>
     <div class="kavaWidget" style="width: 300px; display:inline-block; vertical-align:top">
-      <img src="/img/logo-kava.svg" alt="Kava" title="Kava" height="40"><br>
+      <img src="/img/logo-kava.svg" alt="Kava" title="Kava" width="157" height="40"><br>
     </div>
     <hr>
     <h3>Investigating</h3>
     <div class="polkadotWidget" style="width: 300px; display:inline-block; vertical-align:top">
-      <img src="/img/logo-polkadot.svg" alt="Polkadot" title="Polkadot" height="46"><br>
+      <img src="/img/logo-polkadot.svg" alt="Polkadot" title="Polkadot" width="159" height="46"><br>
     </div>
     <div class="emoneyWidget" style="width: 300px; display:inline-block; vertical-align:top">
-      <img src="/img/logo-emoney.png" alt="e-Money" title="e-Money" height="46"><br>
+      <img src="/img/logo-emoney.png" alt="e-Money" title="e-Money" width="42" height="46"><br>
     </div>
   </div>
 </template>

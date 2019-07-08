@@ -1,10 +1,10 @@
 <template>
     <div class="cosmosLedger" style="width: 300px; display:inline-block; vertical-align:top">
-
         <img src="/img/logo-cosmos.svg" alt="Cosmos" title="Cosmos" width="145" height="46"><br>
-        <span v-if="this.staked!=''"><label>Staked by ChainLayer: </label>
+        <span v-if="this.staked!=''"><label>Staked by ChainLayer: </label><br>
             <span>{{staked}} {{denom}} ({{stakedUSD}})</span><br></span>
         <span v-if="this.price!=''">Price {{denom}}: $ {{price}}</span><br>
+        <!--
         <button v-on:click="show">Details</button>
 
         <modal name="cosmos-modal" :width="400" :draggable="true">
@@ -24,6 +24,7 @@
             <button v-on:click="tryConnect" v-if="this.readytodelegate">Refresh</button>&nbsp;
             <button v-on:click="hide" v-if="this.readytodelegate">Done</button>
         </modal>
+        -->
     </div>
 </template>
 
@@ -34,7 +35,7 @@
 
     const transport = new TransportU2F();
     const cdt = new CosmosDelegateTool(transport);
-    cdt.setNodeURL('https://stargate.cosmos.network');
+    cdt.setNodeURL('https://cosmoshub-lcd.chainlayer.net');
 
     var curformatter = new Intl.NumberFormat('en-US', {
         style: 'currency',

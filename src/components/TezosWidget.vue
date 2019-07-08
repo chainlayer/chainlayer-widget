@@ -1,9 +1,9 @@
 <template>
     <div class="tezosWidget" style="width: 300px; display:inline-block; vertical-align:top">
-        <img src="/img/logo-tezos.png" alt="Tezos" title="Tezos" height="46"><br>
+        <img src="/img/logo-tezos.png" alt="Tezos" title="Tezos" width="108" height="46"><br>
         <span v-if="this.staked!=''"><label>Staked by ChainLayer: </label><br>
             <span>{{staked}} {{denom}} ({{stakedUSD}})</span><br></span>
-        <label v-if="this.price!=''">Price {{denom}}: </label><span>$ {{price}}</span><br>
+        <span v-if="this.price!=''">Price {{denom}}: $ {{price}}</span><br>
     </div>
 </template>
 

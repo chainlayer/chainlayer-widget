@@ -3,7 +3,8 @@
         <img src="/img/logo-irisnet.svg" alt="IrisNet" title="IrisNet" width="145" height="46"><br>
         <span v-if="this.staked!=''"><label>Staked by ChainLayer: </label><br>
             <span>{{staked}} {{denom}} ({{stakedUSD}})</span><br></span>
-        <label v-if="this.price!=''">Price {{denom}}: </label><span>$ {{price}}</span><br>
+        <span v-if="this.price!=''">Price {{denom}}: $ {{price}}</span><br>
+        <!--
         <button v-on:click="show">Details</button>
 
         <modal name="iris-modal" :width="400" :draggable="true">
@@ -19,10 +20,13 @@
             <label v-if="this.readytodelegate">Delegation amount in {{denom}}: </label><input v-model.number="delegation" type="number" v-if="this.readytodelegate" @keypress="onlyNumber"><br>
             <br>
             <button v-on:click="delegate" v-if="this.readytodelegate">Delegate</button>&nbsp;
+        -->
             <!--button v-on:click="withdraw" v-if="this.readytodelegate">Withdraw</button>&nbsp;-->
+        <!--
             <button v-on:click="tryConnect" v-if="this.readytodelegate">Refresh</button>&nbsp;
             <button v-on:click="hide" v-if="this.readytodelegate">Done</button>&nbsp;
         </modal>
+        -->
     </div>
 </template>
 
@@ -33,7 +37,7 @@
 
     const transport = new TransportU2F();
     const cdt = new IrisDelegateTool(transport);
-    cdt.setNodeURL('https://192.168.2.101');
+    cdt.setNodeURL('https://irishub-lcd.chainlayer.net');
 
     var curformatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
