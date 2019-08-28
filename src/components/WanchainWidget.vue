@@ -1,10 +1,10 @@
 <template>
-    <div class="tezosWidget" style="width: 300px; display:inline-block; vertical-align:top">
-        <img src="/img/logo-tezos.png" alt="Tezos" title="Tezos" width="108" height="46"><br>
+    <div class="wanchainWidget" style="width: 300px; display:inline-block; vertical-align:top">
+        <img src="/img/logo-wanchain.png" alt="Wanchain" title="Wanchain" width="169" height="46"><br>
         <span v-if="this.staked!=''"><label>Staked by ChainLayer: </label><br>
             <span>{{staked}} {{denom}} ({{stakedUSD}})</span><br></span>
         <span v-if="this.price!=''">Price {{denom}}: $ {{price}}</span><br>
-        <a class="button sg-popup-id-145 button_size_2 button_dark button_js" href=""><span class="button_label">Details</span></a>&nbsp;
+        <a class="button sg-popup-id-183 button_size_2 button_dark button_js" href=""><span class="button_label">Details</span></a>&nbsp;
     </div>
 </template>
 
@@ -13,7 +13,7 @@
     import Big from 'big.js';
 
     export default {
-        name: 'TezosWidget',
+        name: 'WanchainWidget',
         props: {
             restUrl: String,
         },
@@ -76,8 +76,8 @@
             tryConnect: async function () {
                 this.error = '';
                 this.consoleLog = [];
-                this.denom = 'Tezos';
-                this.baseamount = 1000000;
+                this.denom = 'Wan';
+                this.baseamount = 1000000000000000000;
 
                 this.log(this.consoleLog, "Trying to connect...");
 
@@ -93,22 +93,30 @@
 
                 // First get Validator Info
                 this.validators = await this.getStakingBalance();
-                this.staked = amtformatter.format(Big(this.validators[0] / this.baseamount));
+                this.staked = amtformatter.format(Big(this.validators / this.baseamount));
 
                 this.price = await this.getPrice();
-                this.stakedUSD = curformatter.format(Big(this.validators[0] / this.baseamount * this.price));
-                this.$emit("tezosStake", Big(this.validators[0] / this.baseamount * this.price));
+                this.stakedUSD = curformatter.format(Big(this.validators / this.baseamount * this.price));
+                this.$emit("wanchainStake", Big(this.validators / this.baseamount * this.price));
             },
             getPrice: async function () {
-                const url = `https://min-api.cryptocompare.com/data/price?fsym=XTZ&tsyms=USD`;
+                const url = `https://min-api.cryptocompare.com/data/price?fsym=WAN&tsyms=USD`;
                 return axios.get(url).then((r) => {
                     return r.data.USD;
                 });
             },
             getStakingBalance: async function () {
-                const url = `https://api2.tzscan.io/v1/staking_balance/tz1PesW5khQNhy4revu2ETvMtWPtuVyH2XkZ`;
+                const url = `https://mywanwallet.nl/chainlayerstake.json`;
                 return axios.get(url).then((r) => {
-                    return r.data;
+                    var amount = parseInt(r.data.amount);
+                    var i = 0
+                    for (i=0; i<r.data.clients.length; i++) {
+                        amount += parseInt(r.data.clients[i].amount);
+                    }
+                    for (i=0; i<r.data.partners.length; i++) {
+                        amount += parseInt(r.data.partners[i].amount);
+                    }
+                    return amount;
                 });
             },
         }

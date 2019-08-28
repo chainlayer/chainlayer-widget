@@ -4,6 +4,8 @@
         <span v-if="this.staked!=''"><label>Staked by ChainLayer: </label><br>
             <span>{{staked}} {{denom}} ({{stakedUSD}})</span><br></span>
         <span v-if="this.price!=''">Price {{denom}}: $ {{price}}</span><br>
+        <a class="button sg-popup-id-144 button_size_2 button_dark button_js" href=""><span class="button_label">Details</span></a>&nbsp;
+        <a class="button button_size_2 button_dark button_js" href="https://ledger.chainlayer.io" target="_blank" rel="noopener noreferrer"><span class="button_label">Delegate</span></a>
         <!--
         <button v-on:click="show">Details</button>
 
@@ -45,8 +47,8 @@
     });
     var amtformatter = new Intl.NumberFormat('en-US', {
         style: 'decimal',
-        minimumFractionDigits: 3,
-        maximumFractionDigits: 3,
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
     });
 
     export default {

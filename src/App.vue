@@ -1,6 +1,6 @@
 <template>
   <div id="app" style="vertical-align:top">
-    <TotalStake :tezosStake="tezosStake" :irisStake="irisStake" :terraStake="terraStake" :cosmosStake="cosmosStake"/>
+    <TotalStake :tezosStake="tezosStake" :irisStake="irisStake" :terraStake="terraStake" :cosmosStake="cosmosStake" :wanchainStake="wanchainStake"/>
     <hr>
     <h3>Validating Networks</h3>
     <CosmosLedger msg="Delegation" @cosmosStake="updateCosmos"/>
@@ -9,31 +9,35 @@
     <br>&nbsp;
     <br>
     <TezosWidget msg="Delegation" @tezosStake="updateTezos"/>
+    <WanchainWidget msg="Delegation" @wanchainStake="updateWanchain"/>
     <div class="chainlinkWidget" style="width: 300px; display:inline-block; vertical-align:top">
       <img src="/img/logo-chainlink.png" alt="Chainlink" title="Chainlink" width="128" height="46"><br>
-      <label>Chainlayer Oracle for Chainlink: </label><br>
-      <a href="https://etherscan.io/address/0xf5a3d443fccd7ee567000e43b23b0e98d96445ce">Etherscan</a><br>
-      <a href="https://docs.chain.link/docs/decentralized-oracles-ethereum-mainnet">Mainnet Oracles</a><br>
-      <a href="https://docs.chain.link/docs/chainlinks-ethereum-mainnet">Chainlinks</a><br>
+      <label>Chainlayer Oracle for Chainlink</label><br>
+      <br>&nbsp;
+      <br>&nbsp;
+      <a class="button sg-popup-id-146 button_size_2 button_dark button_js" href=""><span class="button_label">Details</span></a>&nbsp;
     </div>
     <hr>
     <h3>Testnet</h3>
-    <div class="wanchainWidget" style="width: 300px; display:inline-block; vertical-align:top">
-      <img src="/img/logo-wanchain.png" alt="Wanchain" title="Wanchain" width="170" height="46"><br>
-    </div>
     <div class="regenWidget" style="width: 300px; display:inline-block; vertical-align:top">
       <img src="/img/logo-regen.png" alt="Regen" title="Regen" width="237" height="46"><br>
     </div>
     <div class="kavaWidget" style="width: 300px; display:inline-block; vertical-align:top">
       <img src="/img/logo-kava.svg" alt="Kava" title="Kava" width="157" height="40"><br>
     </div>
-    <hr>
-    <h3>Investigating</h3>
+    <div class="celoWidget" style="width: 300px; display:inline-block; vertical-align:top">
+      <img src="/img/logo-celo.png" alt="Celo" title="Celo" width="94" height="46"><br>
+    </div>
     <div class="polkadotWidget" style="width: 300px; display:inline-block; vertical-align:top">
       <img src="/img/logo-polkadot.svg" alt="Polkadot" title="Polkadot" width="159" height="46"><br>
     </div>
+    <hr>
+    <h3>Investigating</h3>
     <div class="emoneyWidget" style="width: 300px; display:inline-block; vertical-align:top">
-      <img src="/img/logo-emoney.png" alt="e-Money" title="e-Money" width="42" height="46"><br>
+      <img src="/img/logo-emoney.png" alt="e-Money" title="e-Money" width="161" height="46"><br>
+    </div>
+    <div class="skaleWidget" style="width: 300px; display:inline-block; vertical-align:top">
+      <img src="/img/logo-skale.png" alt="Skale" title="Skale" width="180" height="46"><br>
     </div>
   </div>
 </template>
@@ -44,6 +48,7 @@ import IrisLedger from './components/IrisLedger.vue'
 import CosmosLedger from './components/CosmosLedger.vue'
 import TerraLedger from './components/TerraLedger.vue'
 import TezosWidget from './components/TezosWidget.vue'
+import WanchainWidget from './components/WanchainWidget.vue'
 import Big from 'big.js';
 
 export default {
@@ -53,7 +58,8 @@ export default {
     IrisLedger,
     CosmosLedger,
     TerraLedger,
-    TezosWidget
+    TezosWidget,
+    WanchainWidget
   },
   data: function() {
     return {
@@ -61,6 +67,7 @@ export default {
       cosmosStake: Big(0),
       terraStake: Big(0),
       irisStake: Big(0),
+      wanchainStake: Big(0),
     };
   },
   methods: {
@@ -75,6 +82,9 @@ export default {
     },
     updateIris(variable) {
       this.irisStake = variable;
+    },
+    updateWanchain(variable) {
+      this.wanchainStake = variable;
     }
   }
 }
@@ -95,5 +105,8 @@ export default {
 div.v--modal {
   padding: 5px;
   text-align: center;
+}
+a.button .button_label {
+  padding: 6px 20px;
 }
 </style>

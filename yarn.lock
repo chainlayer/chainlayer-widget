@@ -2362,9 +2362,10 @@ cosmiconfig@^5.0.0:
     js-yaml "^3.13.1"
     parse-json "^4.0.0"
 
-cosmos-sdk-delegation-lib@chainlayer/cosmos-sdk-delegation-lib#e507e64:
-  version "0.0.1"
-  resolved "https://codeload.github.com/chainlayer/cosmos-sdk-delegation-lib/tar.gz/e507e6490d48d739a22021c2234e9b1bad17416e"
+cosmos-sdk-delegation-lib@^1.0.1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/cosmos-sdk-delegation-lib/-/cosmos-sdk-delegation-lib-1.0.2.tgz#33c4e4252c333ac42abb96dd6df79d2741830d0c"
+  integrity sha512-9DCmKa0D8x0E1ghK2yrHPwmVmQV8sA7it8ZIQjuuxWuNZf2EwzxAHsnmgPV/nsHHzzk9MnbnM7zHIKrSL9wNAQ==
   dependencies:
     "@babel/runtime" "^7.4.4"
     axios "^0.18.0"
