@@ -1,6 +1,6 @@
 <template>
   <div id="app" style="vertical-align:top">
-    <TotalStake :tezosStake="tezosStake" :irisStake="irisStake" :terraStake="terraStake" :cosmosStake="cosmosStake" :wanchainStake="wanchainStake"/>
+    <TotalStake :irisStake="irisStake" :terraStake="terraStake" :cosmosStake="cosmosStake" :wanchainStake="wanchainStake"/>
     <hr>
     <h3>Validating Networks</h3>
     <CosmosLedger msg="Delegation" @cosmosStake="updateCosmos"/>
@@ -8,7 +8,6 @@
     <IrisLedger msg="Delegation" @irisStake="updateIris"/>
     <br>&nbsp;
     <br>
-    <TezosWidget msg="Delegation" @tezosStake="updateTezos"/>
     <WanchainWidget msg="Delegation" @wanchainStake="updateWanchain"/>
     <div class="chainlinkWidget" style="width: 300px; display:inline-block; vertical-align:top">
       <img src="/img/logo-chainlink.png" alt="Chainlink" title="Chainlink" width="128" height="46"><br>
@@ -20,24 +19,25 @@
     <hr>
     <h3>Testnet</h3>
     <div class="regenWidget" style="width: 300px; display:inline-block; vertical-align:top">
-      <img src="/img/logo-regen.png" alt="Regen" title="Regen" width="237" height="46"><br>
+      <a href=""><img src="/img/logo-regen.png" alt="Regen" title="Regen" width="237" height="46"></a><br>
     </div>
     <div class="kavaWidget" style="width: 300px; display:inline-block; vertical-align:top">
-      <img src="/img/logo-kava.svg" alt="Kava" title="Kava" width="157" height="40"><br>
+      <a href=""><img src="/img/logo-kava.svg" alt="Kava" title="Kava" width="157" height="40"></a><br>
     </div>
+    <br />&nbsp;<br />
     <div class="celoWidget" style="width: 300px; display:inline-block; vertical-align:top">
-      <img src="/img/logo-celo.png" alt="Celo" title="Celo" width="94" height="46"><br>
+      <a href=""><img src="/img/logo-celo.png" alt="Celo" title="Celo" width="94" height="46"></a><br>
     </div>
     <div class="polkadotWidget" style="width: 300px; display:inline-block; vertical-align:top">
-      <img src="/img/logo-polkadot.svg" alt="Polkadot" title="Polkadot" width="159" height="46"><br>
+      <a href=""><img src="/img/logo-polkadot.svg" alt="Polkadot" title="Polkadot" width="159" height="46"></a><br>
     </div>
     <hr>
     <h3>Investigating</h3>
     <div class="emoneyWidget" style="width: 300px; display:inline-block; vertical-align:top">
-      <img src="/img/logo-emoney.png" alt="e-Money" title="e-Money" width="161" height="46"><br>
+      <a href=""><img src="/img/logo-emoney.png" alt="e-Money" title="e-Money" width="161" height="46"></a><br>
     </div>
     <div class="skaleWidget" style="width: 300px; display:inline-block; vertical-align:top">
-      <img src="/img/logo-skale.png" alt="Skale" title="Skale" width="180" height="46"><br>
+      <a href=""><img src="/img/logo-skale.png" alt="Skale" title="Skale" width="180" height="46"></a><br>
     </div>
   </div>
 </template>
@@ -47,7 +47,6 @@ import TotalStake from './components/TotalStake.vue'
 import IrisLedger from './components/IrisLedger.vue'
 import CosmosLedger from './components/CosmosLedger.vue'
 import TerraLedger from './components/TerraLedger.vue'
-import TezosWidget from './components/TezosWidget.vue'
 import WanchainWidget from './components/WanchainWidget.vue'
 import Big from 'big.js';
 
@@ -58,12 +57,10 @@ export default {
     IrisLedger,
     CosmosLedger,
     TerraLedger,
-    TezosWidget,
     WanchainWidget
   },
   data: function() {
     return {
-      tezosStake: Big(0),
       cosmosStake: Big(0),
       terraStake: Big(0),
       irisStake: Big(0),
@@ -71,9 +68,6 @@ export default {
     };
   },
   methods: {
-    updateTezos(variable) {
-      this.tezosStake = variable;
-    },
     updateCosmos(variable) {
       this.cosmosStake = variable;
     },
