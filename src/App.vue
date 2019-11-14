@@ -1,6 +1,6 @@
 <template>
   <div id="app" style="vertical-align:top">
-    <TotalStake :irisStake="irisStake" :terraStake="terraStake" :cosmosStake="cosmosStake" :wanchainStake="wanchainStake"/>
+    <TotalStake :irisStake="irisStake" :terraStake="terraStake" :cosmosStake="cosmosStake" :wanchainStake="wanchainStake" :kavaStake="kavaStake"/>
     <hr>
     <h3>Validating Networks</h3>
     <CosmosLedger msg="Delegation" @cosmosStake="updateCosmos"/>
@@ -8,6 +8,7 @@
     <IrisLedger msg="Delegation" @irisStake="updateIris"/>
     <br>&nbsp;
     <br>
+    <KavaLedger msg="Delegation" @kavaStake="updateKava"/>
     <WanchainWidget msg="Delegation" @wanchainStake="updateWanchain"/>
     <div class="chainlinkWidget" style="width: 300px; display:inline-block; vertical-align:top">
       <img src="/img/logo-chainlink.png" alt="Chainlink" title="Chainlink" width="128" height="46"><br>
@@ -20,9 +21,6 @@
     <h3>Testnet</h3>
     <div class="regenWidget" style="width: 300px; display:inline-block; vertical-align:top">
       <a href=""><img src="/img/logo-regen.png" alt="Regen" title="Regen" width="237" height="46"></a><br>
-    </div>
-    <div class="kavaWidget" style="width: 300px; display:inline-block; vertical-align:top">
-      <a href=""><img src="/img/logo-kava.svg" alt="Kava" title="Kava" width="157" height="40"></a><br>
     </div>
     <br />&nbsp;<br />
     <div class="celoWidget" style="width: 300px; display:inline-block; vertical-align:top">
@@ -46,6 +44,7 @@
 import TotalStake from './components/TotalStake.vue'
 import IrisLedger from './components/IrisLedger.vue'
 import CosmosLedger from './components/CosmosLedger.vue'
+import KavaLedger from './components/KavaLedger.vue'
 import TerraLedger from './components/TerraLedger.vue'
 import WanchainWidget from './components/WanchainWidget.vue'
 import Big from 'big.js';
@@ -56,6 +55,7 @@ export default {
     TotalStake,
     IrisLedger,
     CosmosLedger,
+    KavaLedger,
     TerraLedger,
     WanchainWidget
   },
@@ -65,11 +65,15 @@ export default {
       terraStake: Big(0),
       irisStake: Big(0),
       wanchainStake: Big(0),
+      kavaStake: Big(0),
     };
   },
   methods: {
     updateCosmos(variable) {
       this.cosmosStake = variable;
+    },
+    updateKava(variable) {
+      this.kavaStake = variable;
     },
     updateTerra(variable) {
       this.terraStake = variable;
