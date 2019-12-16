@@ -6,26 +6,6 @@
         <span v-if="this.price!=''">Price {{denom}}: $ {{price}}</span><br>
         <a class="button sg-popup-id-142 button_size_2 button_dark button_js" href=""><span class="button_label">Details</span></a>&nbsp;
         <a class="button button_size_2 button_dark button_js" href="https://ledger.chainlayer.io" target="_blank" rel="noopener noreferrer"><span class="button_label">Delegate</span></a>
-        <!--
-
-                <modal name="cosmos-modal" :width="400" :draggable="true">
-                    <span v-if="this.connecting==false && this.connected==false"><button v-on:click="tryConnect">Connect Ledger</button><br></span>
-                    <span v-if="this.connecting==true">looking for ledger<br><img src="/Spinner.gif" height="93" width="93"/></span>
-                    <span v-if="this.error!=''">{{error}}</span><br>
-                    <span v-if="this.bech32!=''"><b>Your information</b></span><br>
-                    <label v-if="this.bech32!=''">Address: </label><span v-if="this.bech32!=''">{{bech32}}</span><br>
-                    <label v-if="this.balance_available!=''">Available Balance: </label><span v-if="this.balance_available!=''">{{balance_available}} {{denom}}</span><br>
-                    <label v-if="this.balance_delegated!=''">Delegated Balance: </label><span v-if="this.balance_delegated!=''">{{balance_delegated}} {{denom}}</span><br>
-                    <label v-if="this.balance_total!=''">Total Balance: </label><span v-if="this.balance_total!=''">{{balance_total}} {{denom}}</span><br>
-                    <label v-if="this.rewards!=''">Rewards: </label><span v-if="this.rewards!=''">{{rewards}} {{denom}}</span><br>
-                    <label v-if="this.readytodelegate">Delegation amount in {{denom}}: </label><input v-model.number="delegation" type="number" v-if="this.readytodelegate" @keypress="onlyNumber"><br>
-                    <br>
-                    <button v-on:click="delegate" v-if="this.readytodelegate">Delegate</button>&nbsp;
-                    <button v-on:click="withdraw" v-if="this.readytodelegate">Withdraw</button>&nbsp;
-                    <button v-on:click="tryConnect" v-if="this.readytodelegate">Refresh</button>&nbsp;
-                    <button v-on:click="hide" v-if="this.readytodelegate">Done</button>
-                </modal>
-                -->
     </div>
 </template>
 
@@ -117,7 +97,7 @@
                 this.readytodelegate = false;
                 this.baseamount = 1000000;
                 this.validator = 'cosmosvaloper1kgddca7qj96z0qcxr2c45z73cfl0c75p7f3s2e';
-                this.chainId = 'cosmoshub-2';
+                this.chainId = 'cosmoshub-3';
 
                 this.log(this.consoleLog, "Trying to connect...");
 
