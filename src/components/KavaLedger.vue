@@ -96,8 +96,8 @@
                 this.hrp = cdt.getHrp();
                 this.readytodelegate = false;
                 this.baseamount = 1000000;
-                this.validator = 'kavavaloper1rmvvs3wj075x52nq8rlznyrd3dsrp4revas3je';
-                this.chainId = 'kava-1';
+                this.validator = 'kavavaloper1kgddca7qj96z0qcxr2c45z73cfl0c75p27tsg6';
+                this.chainId = 'kava-2';
 
                 this.log(this.consoleLog, "Trying to connect...");
 

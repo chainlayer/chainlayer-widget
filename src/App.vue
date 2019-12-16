@@ -4,12 +4,7 @@
     <hr>
     <h3>Validating Networks</h3>
     <CosmosLedger msg="Delegation" @cosmosStake="updateCosmos"/>
-    <TerraLedger msg="Delegation" @terraStake="updateTerra"/>
-    <IrisLedger msg="Delegation" @irisStake="updateIris"/>
-    <br>&nbsp;
-    <br>
     <KavaLedger msg="Delegation" @kavaStake="updateKava"/>
-    <WanchainWidget msg="Delegation" @wanchainStake="updateWanchain"/>
     <div class="chainlinkWidget" style="width: 300px; display:inline-block; vertical-align:top">
       <img src="/img/logo-chainlink.png" alt="Chainlink" title="Chainlink" width="128" height="46"><br>
       <label>Chainlayer Oracle for Chainlink</label><br>
@@ -17,6 +12,11 @@
       <br>&nbsp;
       <a class="button sg-popup-id-146 button_size_2 button_dark button_js" href=""><span class="button_label">Details</span></a>&nbsp;
     </div>
+    <br>&nbsp;
+    <br>
+    <WanchainWidget msg="Delegation" @wanchainStake="updateWanchain"/>
+    <TerraLedger msg="Delegation" @terraStake="updateTerra"/>
+    <IrisLedger msg="Delegation" @irisStake="updateIris"/>
     <hr>
     <h3>Testnet</h3>
     <div class="regenWidget" style="width: 300px; display:inline-block; vertical-align:top">

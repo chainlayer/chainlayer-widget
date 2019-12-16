@@ -27,6 +27,10 @@
                 type: Object,
                 default: Big(0)
             },
+            kavaStake: {
+                type: Object,
+                default: Big(0)
+            },
             wanchainStake: {
                 type: Object,
                 default: Big(0)
@@ -39,19 +43,23 @@
         },
         watch: {
             irisStake: function() {
-                this.totalstake = Big(this.irisStake.add(this.terraStake).add(this.cosmosStake).add(this.wanchainStake));
+                this.totalstake = Big(this.irisStake.add(this.terraStake).add(this.cosmosStake).add(this.wanchainStake).add(this.kavaStake));
                 this.totalstake = curformatter.format(this.totalstake)
             },
             terraStake: function() {
-                this.totalstake = Big(this.irisStake.add(this.terraStake).add(this.cosmosStake).add(this.wanchainStake));
+                this.totalstake = Big(this.irisStake.add(this.terraStake).add(this.cosmosStake).add(this.wanchainStake).add(this.kavaStake));
                 this.totalstake = curformatter.format(this.totalstake)
             },
             cosmosStake: function() {
-                this.totalstake = Big(this.irisStake.add(this.terraStake).add(this.cosmosStake).add(this.wanchainStake));
+                this.totalstake = Big(this.irisStake.add(this.terraStake).add(this.cosmosStake).add(this.wanchainStake).add(this.kavaStake));
+                this.totalstake = curformatter.format(this.totalstake)
+            },
+            kavaStake: function() {
+                this.totalstake = Big(this.irisStake.add(this.terraStake).add(this.cosmosStake).add(this.wanchainStake).add(this.kavaStake));
                 this.totalstake = curformatter.format(this.totalstake)
             },
             wanchainStake: function() {
-                this.totalstake = Big(this.irisStake.add(this.terraStake).add(this.cosmosStake).add(this.wanchainStake));
+                this.totalstake = Big(this.irisStake.add(this.terraStake).add(this.cosmosStake).add(this.wanchainStake).add(this.kavaStake));
                 this.totalstake = curformatter.format(this.totalstake)
             }
         }

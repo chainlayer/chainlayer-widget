@@ -5,6 +5,7 @@
             <span>{{staked}} {{denom}} ({{stakedUSD}})</span><br></span>
         <span v-if="this.price!=''">Price {{denom}}: $ {{price}}</span><br>
         <a class="button sg-popup-id-183 button_size_2 button_dark button_js" href=""><span class="button_label">Details</span></a>&nbsp;
+        <a class="button button_size_2 button_dark button_js" href="https://mywanwallet.io/#staking" target="_blank" rel="noopener noreferrer"><span class="button_label">Delegate</span></a>
     </div>
 </template>
 
