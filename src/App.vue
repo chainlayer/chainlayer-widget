@@ -23,13 +23,12 @@
     <div class="Celo" style="width: 300px; display:inline-block; vertical-align:top">
       <img src="/img/logo-celo.png" alt="Celo" title="Celo" style="height:46px"><br>
       <span class="button_label">&nbsp;</span><br>
-      <span class="button_label">&nbsp;</span>
+      <a class="button sg-popup-id-252 button_size_2 button_dark button_js" href=""><span class="button_label">Details</span></a>
     </div>
     <br>
     <br>
     <div class="E-Money" style="width: 300px; display:inline-block; vertical-align:top">
-      <img src="/img/logo-emoney.png" alt="E-Money" title="E-Money" style="height:46px"><img
-              src="../../../../../../Volumes/GoogleDrive/Shared drives/Shared Peter and Chris/Bookkeeping and Financials/Invoices 2020/logo-kusama.png"/><br>
+      <img src="/img/logo-emoney.png" alt="E-Money" title="E-Money" style="height:46px"><br>
       <span class="button_label">&nbsp;</span><br>
       <span class="button_label">&nbsp;</span>
     </div>
