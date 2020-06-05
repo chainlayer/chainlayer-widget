@@ -1,11 +1,12 @@
 <template>
     <div class="wanchainWidget" style="width: 300px; display:inline-block; vertical-align:top">
-        <img src="/img/logo-wanchain.png" alt="Wanchain" title="Wanchain" width="169" height="46"><br>
-        <span v-if="this.staked!=''"><label>Staked by ChainLayer: </label><br>
+        <img src="/img/logo-wanchain.png" alt="Wanchain" title="Wanchain" style="height:46px"><br>
+        <!--span v-if="this.staked!=''"><label>Staked by ChainLayer: </label><br>
             <span>{{staked}} {{denom}} ({{stakedUSD}})</span><br></span>
         <span v-if="this.price!=''">Price {{denom}}: $ {{price}}</span><br>
-        <a class="button sg-popup-id-183 button_size_2 button_dark button_js" href=""><span class="button_label">Details</span></a>&nbsp;
-        <a class="button button_size_2 button_dark button_js" href="https://mywanwallet.io/#staking" target="_blank" rel="noopener noreferrer"><span class="button_label">Delegate</span></a>
+        <a class="button sg-popup-id-183 button_size_2 button_dark button_js" href=""><span class="button_label">Details</span></a-->
+        <a class="button button_size_2 button_dark button_js" href="https://mywanwallet.io/#staking" target="_blank" rel="noopener noreferrer"><span class="button_label">Delegate</span></a><br>
+        <span class="button_label">&nbsp;</span>
     </div>
 </template>
 

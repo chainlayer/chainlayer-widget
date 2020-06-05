@@ -1,5 +1,5 @@
 <template>
-    <div class="totalStake" style="width: 900px; display:inline-block; vertical-align:top">
+    <div class="totalStake" style="width: 100%; display:inline-block; vertical-align:top">
         <h3>Currently Trusted to ChainLayer: {{totalstake}}</h3>
     </div>
 </template>

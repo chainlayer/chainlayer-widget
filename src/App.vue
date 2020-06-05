@@ -6,36 +6,58 @@
     <CosmosLedger msg="Delegation" @cosmosStake="updateCosmos"/>
     <KavaLedger msg="Delegation" @kavaStake="updateKava"/>
     <div class="chainlinkWidget" style="width: 300px; display:inline-block; vertical-align:top">
-      <img src="/img/logo-chainlink.png" alt="Chainlink" title="Chainlink" width="128" height="46"><br>
-      <label>Chainlayer Oracle for Chainlink</label><br>
+      <img src="/img/logo-chainlink.png" alt="Chainlink" title="Chainlink" style="height:60px"><br>
+      <!--label>Chainlayer Oracle for Chainlink</label><br>
       <br>&nbsp;
       <br>&nbsp;
-      <a class="button sg-popup-id-146 button_size_2 button_dark button_js" href=""><span class="button_label">Details</span></a>&nbsp;
+      <a class="button sg-popup-id-146 button_size_2 button_dark button_js" href=""><span class="button_label">Details</span></a-->
     </div>
     <br>&nbsp;
     <br>
     <WanchainWidget msg="Delegation" @wanchainStake="updateWanchain"/>
+    <div class="Solana" style="width: 300px; display:inline-block; vertical-align:top">
+      <img src="/img/logo-solana.svg" alt="Solana" title="Solana" style="height:46px"><br>
+      <span class="button_label">&nbsp;</span><br>
+      <span class="button_label">&nbsp;</span>
+    </div>
+    <div class="Celo" style="width: 300px; display:inline-block; vertical-align:top">
+      <img src="/img/logo-celo.png" alt="Celo" title="Celo" style="height:46px"><br>
+      <span class="button_label">&nbsp;</span><br>
+      <span class="button_label">&nbsp;</span>
+    </div>
+    <br>
+    <br>
+    <div class="E-Money" style="width: 300px; display:inline-block; vertical-align:top">
+      <img src="/img/logo-emoney.png" alt="E-Money" title="E-Money" style="height:46px"><img
+              src="../../../../../../Volumes/GoogleDrive/Shared drives/Shared Peter and Chris/Bookkeeping and Financials/Invoices 2020/logo-kusama.png"/><br>
+      <span class="button_label">&nbsp;</span><br>
+      <span class="button_label">&nbsp;</span>
+    </div>
     <TerraLedger msg="Delegation" @terraStake="updateTerra"/>
     <IrisLedger msg="Delegation" @irisStake="updateIris"/>
+    <br>
+    <br>
+    <div class="IOV" style="width: 300px; display:inline-block; vertical-align:top">
+      <img src="/img/logo-iov.png" alt="IOV" title="IOV" style="height:46px"><br>
+      <span class="button_label">&nbsp;</span><br>
+      <span class="button_label">&nbsp;</span>
+    </div>
+    <div class="Empty" style="width: 300px; display:inline-block; vertical-align:top">
+      &nbsp;
+    </div>
+    <div class="Empty" style="width: 300px; display:inline-block; vertical-align:top">
+      &nbsp;
+    </div>
     <hr>
     <h3>Testnet</h3>
-    <div class="regenWidget" style="width: 300px; display:inline-block; vertical-align:top">
-      <a href=""><img src="/img/logo-regen.png" alt="Regen" title="Regen" width="237" height="46"></a><br>
+    <div class="akashWidget" style="width: 300px; display:inline-block; vertical-align:top">
+      <a href=""><img src="/img/logo-akash.svg" alt="Akash" title="Akash" style="height:46px"></a><br>
     </div>
-    <br />&nbsp;<br />
-    <div class="celoWidget" style="width: 300px; display:inline-block; vertical-align:top">
-      <a href=""><img src="/img/logo-celo.png" alt="Celo" title="Celo" width="94" height="46"></a><br>
+    <div class="regenWidget" style="width: 300px; display:inline-block; vertical-align:top">
+      <a href=""><img src="/img/logo-regen.png" alt="Regen" title="Regen" style="height:46px"></a><br>
     </div>
     <div class="polkadotWidget" style="width: 300px; display:inline-block; vertical-align:top">
-      <a href=""><img src="/img/logo-polkadot.svg" alt="Polkadot" title="Polkadot" width="159" height="46"></a><br>
-    </div>
-    <hr>
-    <h3>Investigating</h3>
-    <div class="emoneyWidget" style="width: 300px; display:inline-block; vertical-align:top">
-      <a href=""><img src="/img/logo-emoney.png" alt="e-Money" title="e-Money" width="161" height="46"></a><br>
-    </div>
-    <div class="skaleWidget" style="width: 300px; display:inline-block; vertical-align:top">
-      <a href=""><img src="/img/logo-skale.png" alt="Skale" title="Skale" width="180" height="46"></a><br>
+      <a href=""><img src="/img/logo-polkadot.svg" alt="Polkadot" title="Polkadot" style="height:46px"></a><br>
     </div>
   </div>
 </template>
